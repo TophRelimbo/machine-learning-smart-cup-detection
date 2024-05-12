@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+	<title>Cup Detector System</title>
+  <link rel="icon" type="image" href="cuplogo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		</head>
+      
+			<body>
+        
+<main>
+
+    <div class="card">
+
+      <div class="card1">
+        <img src="cuplogo1.png">
+        <div><b><i>Smart Cup <br> Detector</i></b></div>
+             <div class="mainbody">
+            <button type="button" onclick="init()"><b>Launch Camera</b></button>
+            <div id="webcam-container"></div>
+            <div id="label-container"></div>
+            <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+            <script type="text/javascript">
+                // More API functions here:
+                // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+            
+                // the link to your model provided by Teachable Machine export panel
+                const URL = "https://teachablemachine.withgoogle.com/models/_E_TzWwMv/";
+            
+                let model, webcam, labelContainer, maxPredictions;
+            
+                // Load the image model and setup the webcam
+                async function init() {
+                    const modelURL = URL + "model.json";
+                    const metadataURL = URL + "metadata.json";
+            
+                    // load the model and metadata
+                    // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+                    // or files from your local hard drive
+                    // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+                    model = await tmImage.load(modelURL, metadataURL);
+                    maxPredictions = model.getTotalClasses();
+            
+                    // Convenience function to setup a webcam
+                    const flip = true; // whether to flip the webcam
+                    webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+                    await webcam.setup(); // request access to the webcam
+                    await webcam.play();
+                    window.requestAnimationFrame(loop);
+            
+                    // append elements to the DOM
+                    document.getElementById("webcam-container").appendChild(webcam.canvas);
+                    labelContainer = document.getElementById("label-container");
+                    
+                    for (let i = 0; i < maxPredictions; i++) { // and class labels
+                        labelContainer.appendChild(document.createElement("div"));
+                    }
+                }
+            
+                async function loop() {
+                    webcam.update(); // update the webcam frame
+                    await predict();
+                    window.requestAnimationFrame(loop);
+                }
+            
+                // run the webcam image through the image model
+                async function predict() {
+                    // predict can take in an image, video or canvas html element
+                    const prediction = await model.predict(webcam.canvas);
+                    for (let i = 0; i < maxPredictions; i++) {
+                        const probabilityPercentage = (prediction[i].probability * 100).toFixed(2)+"%";
+                        const classPrediction = prediction[i].className + ": " + probabilityPercentage;
+                        labelContainer.childNodes[i].innerHTML = classPrediction;
+                    }
+                }
+            </script>   
+
+          </div>
+          <br>
+        
+<p><b>Visit or Contact me at my social media platforms</b></p>
+
+
+            <div class="socmed">
+              <a href="https://www.facebook.com/TophRelimbo"><i class="fa-brands fa-facebook"></i></a>
+              <a href="https://www.messenger.com/t/100003757335571"><i class="fa-brands fa-facebook-messenger"></i></a>
+              <a href="https://www.instagram.com/its_tophrelimbo/"><i class="fa-brands fa-instagram"></i></a>
+              <a href="https://www.tiktok.com/@tophrelimbo"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+
+      </div>
+      
+
+  </main>
+
+<style>
+	
+*{
+  margin:0;
+  padding:0;
+}
+button {
+      position: absolute;
+      top: 55%;
+      transform: translateY(-50%);
+      border-radius: 5px;
+    }
+
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+  body {
+	background-image: linear-gradient(to left bottom, #010101, #2a2a2b, #505053, #78797d, #a3a5ab, #b0bac8, #bad0e4, #c0e8ff, #9beeff, #6cf4ff, #35f9f3, #09fcd6);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+    
+}
+@import url('https://fonts.googleapis.com/css2?family=Zeyada&display=swap');
+
+main{
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    
+}
+.card{
+    height: 100vh;
+    width: 100%;
+}
+main .card1{
+    width: 530px;
+    height: 590px;
+    border-radius: 2%; 
+    position: relative;
+    border: 1px solid rgb(96, 126, 151);
+    background-color: rgba(0, 0, 0, .3);
+    box-shadow: 0px 0px 700px 50px transparent;
+    
+}
+.card, .card1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
+img{
+    left: 50%;
+    top: -50px;
+    transform: translate(-50%);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    position:absolute;
+    border: 1px solid rgb(96, 126, 151);
+    
+}
+.card1, .profilet{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.profilet{
+    color:#c4c4c4;
+    margin-top: 50px;
+    margin-left:50px;
+    margin-right: 50px;
+    flex-direction: column;
+    
+}
+.line {
+    display: flex;
+    align-items: center;
+    border-left: 2px solid #c4c4c4;
+    height: 100px;
+    opacity: .5;
+    margin-top: 40px;
+    border-radius: 50%;
+}
+hr{
+    height: 2px;
+    width: 390px;
+    opacity: .5;
+    margin: 5px;
+
+}
+.card1, .mainbody{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#c4c4c4;
+    
+}
+.skills, .hobbies{
+    margin-right: 80px;
+    margin-left: 80px;
+    margin-top: 20px;
+}
+
+.br {
+    display: block;
+    margin-bottom: 0.4em;
+}
+.socmed{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+i{
+    font-size: 40px;
+    cursor: pointer;
+    transition: .4s;
+}
+i:hover{
+    color: rgb(17, 51, 240);
+    transform: scale(1.5);
+}
+a{
+    color: rgb(96, 126, 151);
+    margin: 20px;
+}
+button{
+    position: inherit;
+    color: rgb(0, 0, 0);
+    text-shadow: #c4c4c4;
+    cursor: pointer;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: rgb(240, 244, 245);
+    box-shadow: 0px 0px 700px 50px transparent;
+	
+
+}
+
+.names{
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    justify-content: space-evenly;
+
+}
+</style>
+
+<br>
+<p class="names">
+Prepared by:<br>
+Christopher P. Relimbo<br>
+Vlademir F. Sasis<br>
+Jexter Alarcon<br>
+Cella Masula<br>
+Yushen Triste<br>
+ <br>
+ <u><b>3rd year</b></u><br>
+ <u><b>BS in Computer Science</b></u>
+</p>
+</body>
+</html>
